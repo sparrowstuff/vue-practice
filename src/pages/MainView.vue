@@ -2,7 +2,7 @@
   <div class="container">
     <HeaderLayout />
     <section class="hero">
-			<div class="hero__main-wrapper>
+			<div class="hero__main-wrapper">
 				<picture>
 					<source \>
 					<image></image>
