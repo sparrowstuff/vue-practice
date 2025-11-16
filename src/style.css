@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Blogger Sans';
+  src:
+    url('./assets/fonts/blogger-sans.woff2') format('woff2'),
+    url('./assets/fonts/blogger-sans.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  font-family: 'Blogger sans', 'Arial', sans-serif;
+}
+
+a {
+  text-decoration: unset;
+  color: black;
+}
