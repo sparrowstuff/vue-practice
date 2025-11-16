@@ -1,7 +1,15 @@
 <template>
   <div class="container">
     <HeaderLayout />
-    <h1 class="main-page">hello main</h1>
+    <section class="hero">
+			<div class="hero__main-wrapper>
+				<picture>
+					<source \>
+					<image></image>
+				</picture>
+				<h1>Hello main</h1>
+			</div>
+    </section>
   </div>
 </template>
 
