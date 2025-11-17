@@ -11,4 +11,12 @@ const getProducts = async () => {
   }
 }
 
+function addToLocalStorage(itemsName, items) {
+  const dataToStorage = localStorage.setItem(`${itemsName}`, JSON.stringify(items))
+  console.log(items)
+}
+
+const productData = await getProducts()
+addToLocalStorage('productData', productData)
+
 export default getProducts
