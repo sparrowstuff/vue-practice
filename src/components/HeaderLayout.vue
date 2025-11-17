@@ -53,6 +53,7 @@ const roadToCatalog = () => {
 .header {
   width: 100%;
   z-index: 9999 !important;
+  margin-bottom: 1.12rem;
 }
 
 .header__main-wrapper {

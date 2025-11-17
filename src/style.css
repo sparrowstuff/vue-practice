@@ -11,6 +11,7 @@
 ::before,
 ::after {
   box-sizing: border-box;
+  font-family: 'Blogger sans', 'Arial', sans-serif;
 }
 
 a,
@@ -22,10 +23,25 @@ h5,
 h6,
 p,
 span {
-  font-family: 'Blogger sans', 'Arial', sans-serif;
+  margin: unset;
 }
 
 a {
   text-decoration: unset;
   color: black;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn {
+  background-color: transparent;
+  border: unset;
+  outline: 1px solid aqua;
+  border-radius: 0.25rem;
+  padding: 0.9rem 0.3rem;
+
+  font-size: 1.5rem;
+  line-height: 120%;
 }

@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    <HeaderLayout />
-    <h1 class="main-page">hello main</h1>
-  </div>
+  <HeaderLayout />
+  <h1 class="main-page">hello main</h1>
 </template>
 
 <script setup>
