@@ -1,22 +1,15 @@
 <template>
-  <HeaderLayout />
-  <h1 class="main-page">hello main</h1>
-  <div class="container">
-    <HeaderLayout />
-    <section class="hero">
-      <div class="hero__main-wrapper">
-        <picture>
-          <source \ />
-          <image></image>
-        </picture>
-        <h1>Hello main</h1>
-      </div>
-    </section>
-  </div>
+  <section class="hero">
+    <div class="hero__main-wrapper">
+      <h1>Hello main</h1>
+      <picture>
+        <source />
+        <image></image>
+      </picture>
+    </div>
+  </section>
 </template>
 
-<script setup>
-import HeaderLayout from '@/components/HeaderLayout.vue'
-</script>
+<script setup></script>
 
 <style scoped></style>

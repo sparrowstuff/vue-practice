@@ -6,6 +6,7 @@ import './style.css'
 
 <template>
   <div class="container">
+    <header-layout />
     <RouterView />
   </div>
 </template>

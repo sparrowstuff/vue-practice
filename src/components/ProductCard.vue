@@ -41,14 +41,16 @@ import { ref, defineProps } from 'vue'
 
 const props = defineProps({
   product: {
-    id: Number,
-    title: String,
-    description: String,
-    images: { webpUrl: String },
-    price: Number,
-    rating: String,
-    stock: Number,
-    warrantyInformation: String,
+    // id: Number,
+    // title: String,
+    // description: String,
+    // images: { webpUrl: String },
+    // price: Number,
+    // rating: String,
+    // stock: Number,
+    // warrantyInformation: String,
+    type: Object,
+    required: true,
   },
 })
 </script>

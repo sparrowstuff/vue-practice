@@ -39,10 +39,12 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const roadToMainPage = () => {
+  // console.log('Переход на главную')
   router.replace({ name: 'main' })
 }
 
 const roadToCatalog = () => {
+  // console.log('Переход в каталог')
   router.push({ name: 'catalog' })
 }
 </script>
