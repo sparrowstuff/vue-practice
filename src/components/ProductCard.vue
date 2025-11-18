@@ -3,7 +3,7 @@
     <div class="product-card__main">
       <picture class="product-card__picture">
         <source type="webp" :srcset="product.images[0]" />
-        <img :src="product.images[0]" srcset="" :alt="product.title" width="280" height="300" />
+        <img :src="product.images[0]" srcset="" :alt="product.title" width="200" height="200" />
       </picture>
       <div class="product-card__text-block">
         <h2 class="product-card__title">{{ product.title }}</h2>
@@ -58,7 +58,7 @@ const props = defineProps({
 <style scoped>
 .product-card {
   min-height: 12.5rem;
-  max-width: 18.75rem;
+  max-width: 13.75rem;
   border-radius: 0.5rem;
   outline: 1px solid aqua;
   overflow: hidden;
