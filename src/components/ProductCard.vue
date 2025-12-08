@@ -32,27 +32,31 @@
         </div>
       </div>
       <button class="product-card__info-btn btn" type="button">Подробнее</button>
+      <button class="product-card__basket-btn btn" type="button" @click="addInBasket">
+        Добавить в корзину
+      </button>
     </div>
   </article>
 </template>
 
 <script setup>
 import { ref, defineProps } from 'vue'
+import { useBasketStore } from '@/stores/basket'
+import { useAuthStore } from '@/stores/auth'
+
+const basketStore = useBasketStore()
 
 const props = defineProps({
   product: {
-    // id: Number,
-    // title: String,
-    // description: String,
-    // images: { webpUrl: String },
-    // price: Number,
-    // rating: String,
-    // stock: Number,
-    // warrantyInformation: String,
     type: Object,
     required: true,
   },
 })
+
+const addInBasket = () => {
+  basketStore.addInBasket(props.product)
+  // console.log('Books in basket:', basketStore.basketItems)
+}
 </script>
 
 <style scoped>
@@ -73,9 +77,11 @@ const props = defineProps({
   height: 100%;
 }
 
-.product-card__info-btn {
+.product-card__info-btn,
+.product-card__basket-btn {
   margin-top: auto;
   width: 100%;
+  font-size: 1rem;
 }
 
 .product-card__text-block {

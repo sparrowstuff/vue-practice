@@ -1,7 +1,16 @@
 <template>
   <div class="catalog">
-    <h2 class="catalog__title" style="margin-bottom: 1.12rem">Catalog</h2>
-    <div class="catalog__inputs">
+    <div class="catalog__title-block">
+      <h2 class="catalog__title">Catalog</h2>
+      <button
+        class="catalog__auth-btn"
+        :class="{ 'catalog__auth-btn--active': auth.isAuthorized }"
+        @click="authorize"
+      >
+        {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
+      </button>
+    </div>
+    <div class="catalog__inputs" :class="{ 'catalog__inputs--active': auth.isAuthorized }">
       <div class="custom-input">
         <label for="searchTitle" class="custom-input__label">Название: </label>
         <input
@@ -37,6 +46,9 @@
         />
       </div>
     </div>
+    <div class="catalog__favorites">
+      <span class="catalog__fav-names"></span>
+    </div>
     <div class="catalog__cards-block">
       <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
     </div>
@@ -50,11 +62,13 @@
 import getProducts from '@/api/products'
 import ProductCard from '@/components/ProductCard.vue'
 import { ref, watch, computed, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 const products = ref([])
 const searchText = ref('')
 const searchMin = ref('')
 const searchMax = ref('')
+const auth = useAuthStore()
 
 const loadData = async () => {
   const data = await getProducts()
@@ -84,12 +98,24 @@ const filteredProducts = computed(() => {
 
   return filtered
 })
+
+const authorize = computed(() => {
+  auth.isAuthorized = !auth.isAuthorized
+})
 </script>
 
 <style scoped>
 h2 {
   font-size: 2rem;
   line-height: 100%;
+  margin: unset;
+}
+
+.catalog__title-block {
+  display: flex;
+  align-items: center;
+  gap: 0.62rem;
+  margin-bottom: 1.62rem;
 }
 
 .catalog__inputs {
@@ -99,6 +125,13 @@ h2 {
   gap: 0.62rem;
   width: 100%;
   margin-bottom: 1.12rem;
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.catalog__inputs--active {
+  filter: unset;
+  pointer-events: all;
 }
 
 .catalog__cards-block {
@@ -106,6 +139,24 @@ h2 {
   flex-wrap: wrap;
   gap: 3vw;
 }
+
+.catalog__auth-btn {
+  padding: 0.5rem 0.62rem;
+  border-radius: 0.8rem;
+  background-color: transparent;
+  border: 2px solid aqua;
+
+  transition:
+    color 0.3s ease-in,
+    box-shadow 0.3s ease-in;
+}
+
+.catalog__auth-btn:hover,
+.catalog__auth-btn:focus-visible {
+  color: aqua;
+  box-shadow: 2px 2px 2px 0 black;
+}
+
 .custom-input {
   max-width: 200px;
   width: 100%;
