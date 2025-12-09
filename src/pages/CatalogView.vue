@@ -10,6 +10,32 @@
         {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
       </button>
     </div>
+    <div class="catalog__chosen-block">
+      <span class="catalog__chosen-text"><b>Выбранные товары:</b></span>
+      <span v-if="basket.productsInBasket.length === 0">Ничего не выбрано</span>
+      <div class="catalog__basket">
+        <div
+          v-for="product in basket.productsInBasket"
+          :key="product.id"
+          class="catalog__chosen-product"
+        >
+          <picture class="catalog__chosen-picture">
+            <source type="webp" :srcset="product.images[0]" />
+            <img :src="product.images[0]" srcset="" :alt="product.title" width="100" height="100" />
+          </picture>
+          <span class="catalog__chosen-title">{{ product.title }}</span>
+          <div class="catalog__chosen-options">
+            <span class="catalog__chosen-price">{{ product.price }} $</span>
+            <button
+              class="catalog__remove-btn btn btn--small"
+              @click="removeFromBasket(product.id)"
+            >
+              Удалить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="catalog__inputs" :class="{ 'catalog__inputs--active': auth.isAuthorized }">
       <div class="custom-input">
         <label for="searchTitle" class="custom-input__label">Название: </label>
@@ -63,12 +89,14 @@ import getProducts from '@/api/products'
 import ProductCard from '@/components/ProductCard.vue'
 import { ref, watch, computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useBasketStore } from '@/stores/basket'
 
 const products = ref([])
 const searchText = ref('')
 const searchMin = ref('')
 const searchMax = ref('')
 const auth = useAuthStore()
+const basket = useBasketStore()
 
 const loadData = async () => {
   const data = await getProducts()
@@ -102,6 +130,10 @@ const filteredProducts = computed(() => {
 const authorize = computed(() => {
   auth.isAuthorized = !auth.isAuthorized
 })
+
+const removeFromBasket = (productId) => {
+  basket.removeFromBasket(productId)
+}
 </script>
 
 <style scoped>
@@ -116,6 +148,48 @@ h2 {
   align-items: center;
   gap: 0.62rem;
   margin-bottom: 1.62rem;
+}
+
+.catalog__chosen-block {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.12rem;
+}
+
+.catalog__basket {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.62rem;
+}
+
+.catalog__chosen-product {
+  max-width: 100px;
+  padding: 0.62rem;
+  border: 1px solid aqua;
+  border-radius: 0.8rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: flex-start;
+}
+
+.catalog__chosen-title,
+.catalog__chosen-price {
+  font-size: 0.8rem;
+}
+
+.catalog__chosen-options {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+}
+
+.catalog__remove-btn {
+  border-radius: 0.5rem;
 }
 
 .catalog__inputs {

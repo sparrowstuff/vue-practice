@@ -70,7 +70,33 @@ img {
   );
   z-index: -1;
   opacity: 0;
-  transition: opacity 0.3s ease-in;
+  transition:
+    opacity 0.3s ease-in,
+    background-color 0.3s ease-in;
+}
+
+.btn--notActive {
+  pointer-events: none;
+  filter: blur(5px);
+}
+
+.btn--active {
+  pointer-events: all;
+  filter: unset;
+}
+
+.btn--active::after {
+  background: linear-gradient(
+    90deg,
+    rgb(143, 235, 44) 0%,
+    rgba(180, 209, 188, 1) 50%,
+    rgb(23, 246, 213) 100%
+  );
+}
+
+.btn--small {
+  font-size: 0.8rem;
+  width: 100%;
 }
 
 .btn:hover::after,

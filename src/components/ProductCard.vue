@@ -32,19 +32,25 @@
         </div>
       </div>
       <button class="product-card__info-btn btn" type="button">Подробнее</button>
-      <button class="product-card__basket-btn btn" type="button" @click="addInBasket">
-        Добавить в корзину
+      <button
+        class="product-card__basket-btn btn"
+        :class="[{ 'btn--notActive': !auth.isAuthorized }, { 'btn--active': productInBasket }]"
+        type="button"
+        @click="addInBasket"
+      >
+        {{ isAdded ? 'Удалить' : 'В корзину' }}
       </button>
     </div>
   </article>
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, computed } from 'vue'
 import { useBasketStore } from '@/stores/basket'
 import { useAuthStore } from '@/stores/auth'
 
 const basketStore = useBasketStore()
+const auth = useAuthStore()
 
 const props = defineProps({
   product: {
@@ -55,8 +61,15 @@ const props = defineProps({
 
 const addInBasket = () => {
   basketStore.addInBasket(props.product)
-  // console.log('Books in basket:', basketStore.basketItems)
 }
+
+const isAdded = computed(() => {
+  return basketStore.productsInBasket.some((el) => el.id === props.product.id)
+})
+
+const productInBasket = computed(() => {
+  return basketStore.isInBasket(props.product.id)
+})
 </script>
 
 <style scoped>

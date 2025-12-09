@@ -3,19 +3,29 @@ import { ref } from 'vue'
 import { useAuthStore } from './auth'
 
 export const useBasketStore = defineStore('basket', () => {
-  const booksInBasket = ref([])
+  const productsInBasket = ref([])
 
   const { isAuthorized } = storeToRefs(useAuthStore())
 
-  const addInBasket = (book) => {
+  const addInBasket = (product) => {
     if (isAuthorized.value) {
-      if (booksInBasket.value.some((el) => el.id === book.id)) {
-        booksInBasket.value = booksInBasket.value.filter((el) => el.id !== book.id)
-      } else booksInBasket.value.push(book)
+      if (productsInBasket.value.some((el) => el.id === product.id)) {
+        productsInBasket.value = productsInBasket.value.filter((el) => el.id !== product.id)
+      } else productsInBasket.value.push(product)
+    }
+  }
+
+  const isInBasket = (productId) => {
+    return productsInBasket.value.some((el) => el.id === productId)
+  }
+
+  const removeFromBasket = (productId) => {
+    if (isAuthorized.value) {
+      productsInBasket.value = productsInBasket.value.filter((el) => el.id !== productId)
     }
   }
 
   // const basketItems = computed(() => booksInBasket.value.length)
 
-  return { addInBasket, booksInBasket }
+  return { addInBasket, productsInBasket, isInBasket, removeFromBasket }
 })
