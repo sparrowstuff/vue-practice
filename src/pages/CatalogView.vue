@@ -1,14 +1,7 @@
 <template>
   <div class="catalog">
     <div class="catalog__title-block">
-      <h2 class="catalog__title">Catalog</h2>
-      <button
-        class="catalog__auth-btn"
-        :class="{ 'catalog__auth-btn--active': auth.isAuthorized }"
-        @click="authorize"
-      >
-        {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
-      </button>
+      <h2 class="catalog__title">Каталог товаров</h2>
     </div>
     <div class="catalog__chosen-block">
       <span class="catalog__chosen-text"><b>Выбранные товары:</b></span>
@@ -127,108 +120,91 @@ const filteredProducts = computed(() => {
   return filtered
 })
 
-const authorize = computed(() => {
-  auth.isAuthorized = !auth.isAuthorized
-})
-
 const removeFromBasket = (productId) => {
   basket.removeFromBasket(productId)
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 h2 {
   font-size: 2rem;
   line-height: 100%;
   margin: unset;
 }
 
-.catalog__title-block {
-  display: flex;
-  align-items: center;
-  gap: 0.62rem;
-  margin-bottom: 1.62rem;
-}
+.catalog {
+  &__title-block {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
+    margin-bottom: 1.62rem;
+  }
 
-.catalog__chosen-block {
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.12rem;
-}
+  &__chosen-block {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.12rem;
+  }
 
-.catalog__basket {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.62rem;
-}
+  &__basket {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.62rem;
+  }
 
-.catalog__chosen-product {
-  max-width: 100px;
-  padding: 0.62rem;
-  border: 1px solid aqua;
-  border-radius: 0.8rem;
+  &__chosen-product {
+    max-width: 100px;
+    padding: 0.62rem;
+    border: 1px solid aqua;
+    border-radius: 0.8rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  align-items: flex-start;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-start;
+  }
 
-.catalog__chosen-title,
-.catalog__chosen-price {
-  font-size: 0.8rem;
-}
+  &__chosen-title,
+  &__chosen-price {
+    font-size: 0.8rem;
+  }
 
-.catalog__chosen-options {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  width: 100%;
-}
+  &__chosen-options {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 100%;
+  }
 
-.catalog__remove-btn {
-  border-radius: 0.5rem;
-}
+  &__remove-btn {
+    border-radius: 0.5rem;
+  }
 
-.catalog__inputs {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 0.62rem;
-  width: 100%;
-  margin-bottom: 1.12rem;
-  filter: blur(5px);
-  pointer-events: none;
-}
+  &__inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.62rem;
+    width: 100%;
+    margin-bottom: 1.12rem;
+    filter: blur(5px);
+    pointer-events: none;
 
-.catalog__inputs--active {
-  filter: unset;
-  pointer-events: all;
-}
+    transition: filter 0.3s ease-in;
+  }
 
-.catalog__cards-block {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3vw;
-}
+  &__inputs--active {
+    filter: unset;
+    pointer-events: all;
+  }
 
-.catalog__auth-btn {
-  padding: 0.5rem 0.62rem;
-  border-radius: 0.8rem;
-  background-color: transparent;
-  border: 2px solid aqua;
-
-  transition:
-    color 0.3s ease-in,
-    box-shadow 0.3s ease-in;
-}
-
-.catalog__auth-btn:hover,
-.catalog__auth-btn:focus-visible {
-  color: aqua;
-  box-shadow: 2px 2px 2px 0 black;
+  &__cards-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3vw;
+  }
 }
 
 .custom-input {

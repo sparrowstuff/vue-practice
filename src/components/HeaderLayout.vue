@@ -24,10 +24,37 @@
         <span class="header__main-link-text">Main page</span>
       </router-link>
       <nav class="nav-menu">
+        <button
+          class="nav-menu__auth-btn"
+          :class="{ 'nav-menu__auth-btn--active': auth.isAuthorized }"
+          @click="authorize"
+        >
+          {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
+        </button>
         <router-link @click="roadToCatalog" to="/catalog" class="nav-menu__page-link"
           >Catalog</router-link
         >
-        <a href="#" class="nav-menu__page-link">Posts</a>
+        <router-link @click="roadToPosts" to="/posts" class="nav-menu__page-link"
+          >Posts</router-link
+        >
+
+        <router-link to="/basket" class="nav-menu__page-link">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20 10L18.5145 17.4276C18.3312 18.3439 18.2396 18.8021 18.0004 19.1448C17.7894 19.447 17.499 19.685 17.1613 19.8326C16.7783 20 16.3111 20 15.3766 20H8.62337C7.6889 20 7.22166 20 6.83869 19.8326C6.50097 19.685 6.2106 19.447 5.99964 19.1448C5.76041 18.8021 5.66878 18.3439 5.48551 17.4276L4 10M20 10H18M20 10H21M4 10H3M4 10H6M6 10H18M6 10L9 4M18 10L15 4M9 13V16M12 13V16M15 13V16"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </router-link>
       </nav>
     </div>
   </header>
@@ -35,6 +62,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
 const router = useRouter()
 
@@ -47,92 +76,119 @@ const roadToCatalog = () => {
   // console.log('Переход в каталог')
   router.push({ name: 'catalog' })
 }
+
+const roadToPosts = () => {
+  router.push({ name: 'posts' })
+}
+
+const auth = useAuthStore()
+
+const authorize = computed(() => {
+  auth.isAuthorized = !auth.isAuthorized
+})
 </script>
 
-<style scoped>
-/* после подключения router-link перевести a => router-link */
-
+<style scoped lang="scss">
 .header {
   width: 100%;
   z-index: 9999 !important;
   margin-bottom: 1.12rem;
-}
 
-.header__main-wrapper {
-  padding: 0.62rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  width: 100%;
-}
+  &__main-wrapper {
+    padding: 0.62rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+  }
 
-.header__main-link {
-  display: flex;
-  align-items: center;
-  gap: 0.62rem;
+  &__main-link {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
 
-  &:hover,
-  &:focus-visible {
-    .header__main-link-text {
-      color: blue;
-      scale: 1.05;
-    }
+    &:hover,
+    &:focus-visible {
+      &__main-link-text {
+        color: blue;
+        scale: 1.05;
+      }
 
-    .header__main-link-logo {
-      transform: translateX(0.3rem);
+      &__main-link-logo {
+        transform: translateX(0.3rem);
+      }
     }
   }
-}
 
-.header__main-link-logo {
-  color: black;
+  &__main-link-logo {
+    color: black;
 
-  transition: transform 0.3s ease-in;
-}
+    transition: transform 0.3s ease-in;
+  }
 
-.header__main-link-text {
-  font-size: 1.5rem;
-  line-height: 120%;
-  letter-spacing: 0.02em;
+  &__main-link-text {
+    font-size: 1.5rem;
+    line-height: 120%;
+    letter-spacing: 0.02em;
 
-  transition:
-    color 0.3s ease-in,
-    scale 0.3s ease-in;
+    transition:
+      color 0.3s ease-in,
+      scale 0.3s ease-in;
+  }
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
   gap: 0.62rem;
-}
 
-.nav-menu__page-link {
-  font-size: 1.3rem;
-  line-height: 120%;
-  letter-spacing: 0.02em;
+  $root: &;
 
-  position: relative;
-}
+  &__page-link {
+    font-size: 1.3rem;
+    line-height: 120%;
+    letter-spacing: 0.02em;
 
-.nav-menu__page-link::before {
-  content: '';
-  width: 100%;
-  height: 2px;
-  background-color: black;
-  border-radius: 10%;
-  position: absolute;
-  bottom: -5%;
-  left: 0;
+    position: relative;
 
-  clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-  transition: clip-path 0.3s ease-in;
-}
+    &::before {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background-color: black;
+      border-radius: 10%;
+      position: absolute;
+      bottom: -5%;
+      left: 0;
 
-.nav-menu__page-link:hover,
-.nav-menu__page-link:focus-visible {
-  &::before {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+      transition: clip-path 0.3s ease-in;
+    }
+
+    &:hover,
+    &:focus-visible {
+      &::before {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+    }
+  }
+
+  &__auth-btn {
+    padding: 0.5rem 0.62rem;
+    border-radius: 0.8rem;
+    background-color: transparent;
+    border: 2px solid aqua;
+
+    transition:
+      color 0.3s ease-in,
+      box-shadow 0.3s ease-in;
+
+    &:hover,
+    &:focus-visible {
+      color: aqua;
+      box-shadow: 2px 2px 2px 0 black;
+    }
   }
 }
 </style>

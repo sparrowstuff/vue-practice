@@ -21,6 +21,16 @@ const router = createRouter({
         },
       ],
     },
+    {
+      name: 'posts',
+      path: '/posts',
+      component: () => import('@/pages/PostsView.vue'),
+    },
+    {
+      name: 'basket',
+      path: '/basket',
+      component: () => import('@/pages/BasketView.vue'),
+    },
   ],
 })
 

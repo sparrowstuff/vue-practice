@@ -72,74 +72,74 @@ const productInBasket = computed(() => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .product-card {
   min-height: 12.5rem;
   max-width: 13.75rem;
   border-radius: 0.5rem;
   outline: 1px solid aqua;
   overflow: hidden;
-}
 
-.product-card__main {
-  display: flex;
-  flex-direction: column;
-  gap: 0.62rem;
-  align-items: flex-start;
-  padding: 0.62rem;
-  height: 100%;
-}
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+    align-items: flex-start;
+    padding: 0.62rem;
+    height: 100%;
+  }
 
-.product-card__info-btn,
-.product-card__basket-btn {
-  margin-top: auto;
-  width: 100%;
-  font-size: 1rem;
-}
+  &__info-btn,
+  &__basket-btn {
+    margin-top: auto;
+    width: 100%;
+    font-size: 1rem;
+  }
 
-.product-card__text-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.62rem;
-  height: 100%;
-}
-.product-card__title {
-  font-size: 1.4rem;
-  line-height: 110%;
-}
+  &__text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+    height: 100%;
+  }
+  &__title {
+    font-size: 1.4rem;
+    line-height: 110%;
+  }
 
-.product-card__description {
-  font-size: 1.2rem;
-  margin-bottom: 0.62rem;
-}
+  &__description {
+    font-size: 1.2rem;
+    margin-bottom: 0.62rem;
+  }
 
-.product-card__all-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.62rem;
-  width: 100%;
-}
+  &__all-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+    width: 100%;
+  }
 
-.product-card__inner-info {
-  display: flex;
-  gap: 0.62rem;
-  justify-content: space-between;
-}
+  &__inner-info {
+    display: flex;
+    gap: 0.62rem;
+    justify-content: space-between;
+  }
 
-.product-card__price,
-.product-card__rating {
-  font-size: 1.1rem;
-}
+  &__price,
+  &__rating {
+    font-size: 1.1rem;
+  }
 
-.product-card__price-number,
-.product-card__rating-number {
-  font-weight: 600;
-}
+  &__price-number,
+  &__rating-number {
+    font-weight: 600;
+  }
 
-.product-card__additional-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.62rem;
+  &__additional-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+  }
 }
 
 b {
