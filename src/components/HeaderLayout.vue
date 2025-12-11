@@ -23,7 +23,7 @@
         </svg>
         <span class="header__main-link-text">Main page</span>
       </router-link>
-      <nav class="nav-menu">
+      <div class="header__nav-menu">
         <button
           class="nav-menu__auth-btn"
           :class="{ 'nav-menu__auth-btn--active': auth.isAuthorized }"
@@ -31,31 +31,33 @@
         >
           {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
         </button>
-        <router-link @click="roadToCatalog" to="/catalog" class="nav-menu__page-link"
-          >Catalog</router-link
-        >
-        <router-link @click="roadToPosts" to="/posts" class="nav-menu__page-link"
-          >Posts</router-link
-        >
-
-        <router-link to="/basket" class="nav-menu__page-link">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        <nav class="nav-menu" v-if="showDesktopNav">
+          <router-link @click="roadToCatalog" to="/catalog" class="nav-menu__page-link"
+            >Catalog</router-link
           >
-            <path
-              d="M20 10L18.5145 17.4276C18.3312 18.3439 18.2396 18.8021 18.0004 19.1448C17.7894 19.447 17.499 19.685 17.1613 19.8326C16.7783 20 16.3111 20 15.3766 20H8.62337C7.6889 20 7.22166 20 6.83869 19.8326C6.50097 19.685 6.2106 19.447 5.99964 19.1448C5.76041 18.8021 5.66878 18.3439 5.48551 17.4276L4 10M20 10H18M20 10H21M4 10H3M4 10H6M6 10H18M6 10L9 4M18 10L15 4M9 13V16M12 13V16M15 13V16"
-              stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </router-link>
-      </nav>
+          <router-link @click="roadToPosts" to="/posts" class="nav-menu__page-link"
+            >Posts</router-link
+          >
+          <router-link to="/basket" class="nav-menu__page-link">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 10L18.5145 17.4276C18.3312 18.3439 18.2396 18.8021 18.0004 19.1448C17.7894 19.447 17.499 19.685 17.1613 19.8326C16.7783 20 16.3111 20 15.3766 20H8.62337C7.6889 20 7.22166 20 6.83869 19.8326C6.50097 19.685 6.2106 19.447 5.99964 19.1448C5.76041 18.8021 5.66878 18.3439 5.48551 17.4276L4 10M20 10H18M20 10H21M4 10H3M4 10H6M6 10H18M6 10L9 4M18 10L15 4M9 13V16M12 13V16M15 13V16"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </router-link>
+        </nav>
+        <burger-menu />
+      </div>
     </div>
   </header>
 </template>
@@ -63,17 +65,16 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import BurgerMenu from './BurgerMenu.vue'
 
 const router = useRouter()
 
 const roadToMainPage = () => {
-  // console.log('Переход на главную')
   router.replace({ name: 'main' })
 }
 
 const roadToCatalog = () => {
-  // console.log('Переход в каталог')
   router.push({ name: 'catalog' })
 }
 
@@ -83,8 +84,23 @@ const roadToPosts = () => {
 
 const auth = useAuthStore()
 
-const authorize = computed(() => {
+const authorize = () => {
   auth.isAuthorized = !auth.isAuthorized
+}
+
+const showDesktopNav = ref(true)
+
+const checkWindowWidth = () => {
+  showDesktopNav.value = window.innerWidth > 1024
+}
+
+onMounted(() => {
+  checkWindowWidth()
+  window.addEventListener('resize', checkWindowWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkWindowWidth)
 })
 </script>
 
@@ -93,6 +109,7 @@ const authorize = computed(() => {
   width: 100%;
   z-index: 9999 !important;
   margin-bottom: 1.12rem;
+  position: relative;
 
   &__main-wrapper {
     padding: 0.62rem 0;
@@ -101,6 +118,12 @@ const authorize = computed(() => {
     justify-content: space-between;
     gap: 1.5rem;
     width: 100%;
+  }
+
+  &__nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
   }
 
   &__main-link {

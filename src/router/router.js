@@ -13,13 +13,7 @@ const router = createRouter({
       name: 'catalog',
       path: '/catalog',
       component: () => import('@/pages/CatalogView.vue'),
-      children: [
-        {
-          name: '/product/:id',
-          path: 'catalog',
-          component: () => import('@/pages/CardView.vue'),
-        },
-      ],
+      children: [],
     },
     {
       name: 'posts',
