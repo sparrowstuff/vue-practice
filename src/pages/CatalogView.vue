@@ -53,7 +53,7 @@
       <img
         class="catalog__loader"
         v-else
-        src="../../public/loading.gif"
+        src="/loading.gif"
         alt="loading"
         width="200"
         height="200"
@@ -107,10 +107,6 @@ const filteredProducts = computed(() => {
 
   return filtered
 })
-
-const removeFromBasket = (productId) => {
-  basket.removeFromBasket(productId)
-}
 </script>
 
 <style scoped lang="scss">

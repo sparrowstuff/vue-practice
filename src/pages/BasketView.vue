@@ -50,14 +50,14 @@
             v-model="addressInput"
           />
         </div>
-        <button class="get-products-form__submit-btn btn" type="submit">Оформить заказ</button>
+        <button class="get-products-form__submit-btn btn" type="submit">Перейти к оплате</button>
       </div>
       <img
         class="get-products-form__img"
-        src="../../public/images/icon.ru_RU.png"
+        src="/images/zakaz-img.png"
         alt="form-image"
-        width="500"
-        height="500"
+        width="300"
+        height="300"
       />
     </form>
   </div>
