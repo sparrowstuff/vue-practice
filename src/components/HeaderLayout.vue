@@ -25,8 +25,8 @@
       </router-link>
       <div class="header__nav-menu">
         <button
-          class="nav-menu__auth-btn"
-          :class="{ 'nav-menu__auth-btn--active': auth.isAuthorized }"
+          class="header__auth-btn"
+          :class="{ 'header__auth-btn--active': auth.isAuthorized }"
           @click="authorize"
         >
           {{ auth.isAuthorized ? 'Выйти' : 'Авторизоваться' }}
@@ -38,7 +38,8 @@
           <router-link @click="roadToPosts" to="/posts" class="nav-menu__page-link"
             >Posts</router-link
           >
-          <router-link to="/basket" class="nav-menu__page-link">
+          <router-link to="/basket" class="nav-menu__page-link nav-menu__basket-link">
+            <span class="nav-menu__basket-counter">{{ basket.productsInBasket.length }}</span>
             <svg
               width="40"
               height="40"
@@ -65,9 +66,11 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import BurgerMenu from './BurgerMenu.vue'
+import { useBasketStore } from '@/stores/basket'
 
+// router func
 const router = useRouter()
 
 const roadToMainPage = () => {
@@ -82,18 +85,21 @@ const roadToPosts = () => {
   router.push({ name: 'posts' })
 }
 
+// auth func
 const auth = useAuthStore()
 
 const authorize = () => {
   auth.isAuthorized = !auth.isAuthorized
 }
 
+// nav menu appearance
 const showDesktopNav = ref(true)
 
 const checkWindowWidth = () => {
   showDesktopNav.value = window.innerWidth > 1024
 }
 
+// mount func
 onMounted(() => {
   checkWindowWidth()
   window.addEventListener('resize', checkWindowWidth)
@@ -102,6 +108,9 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', checkWindowWidth)
 })
+
+// basket func
+const basket = useBasketStore()
 </script>
 
 <style scoped lang="scss">
@@ -110,6 +119,7 @@ onUnmounted(() => {
   z-index: 9999 !important;
   margin-bottom: 1.12rem;
   position: relative;
+  $root: &;
 
   &__main-wrapper {
     padding: 0.62rem 0;
@@ -142,6 +152,19 @@ onUnmounted(() => {
         transform: translateX(0.3rem);
       }
     }
+
+    @media (max-width: 27rem) {
+      gap: 0.3rem;
+
+      #{$root}__main-link-text {
+        font-size: 1.2rem;
+      }
+
+      #{$root}__main-link-logo {
+        width: 1.95rem;
+        height: 1.95rem;
+      }
+    }
   }
 
   &__main-link-logo {
@@ -158,6 +181,23 @@ onUnmounted(() => {
     transition:
       color 0.3s ease-in,
       scale 0.3s ease-in;
+  }
+
+  &__auth-btn {
+    padding: 0.5rem 0.62rem;
+    border-radius: 0.8rem;
+    background-color: transparent;
+    border: 2px solid aqua;
+
+    transition:
+      color 0.3s ease-in,
+      box-shadow 0.3s ease-in;
+
+    &:hover,
+    &:focus-visible {
+      color: aqua;
+      box-shadow: 2px 2px 2px 0 black;
+    }
   }
 }
 
@@ -197,21 +237,27 @@ onUnmounted(() => {
     }
   }
 
-  &__auth-btn {
-    padding: 0.5rem 0.62rem;
-    border-radius: 0.8rem;
-    background-color: transparent;
-    border: 2px solid aqua;
+  &__basket-link {
+    position: relative;
+  }
 
-    transition:
-      color 0.3s ease-in,
-      box-shadow 0.3s ease-in;
+  &__basket-counter {
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: rgb(255, 131, 131);
+    align-items: center;
+    justify-content: center;
 
-    &:hover,
-    &:focus-visible {
-      color: aqua;
-      box-shadow: 2px 2px 2px 0 black;
-    }
+    position: absolute;
+    top: -5%;
+    right: -13%;
+    z-index: 2;
+
+    color: rgb(0, 0, 0);
+    font-size: 0.82rem;
   }
 }
 </style>

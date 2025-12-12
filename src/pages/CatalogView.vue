@@ -69,7 +69,21 @@
       <span class="catalog__fav-names"></span>
     </div>
     <div class="catalog__cards-block">
-      <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
+      <ProductCard
+        v-if="filteredProducts.length !== 0"
+        v-for="product in filteredProducts"
+        :key="product.id"
+        :product="product"
+        class="product-card"
+      />
+      <img
+        class="catalog__loader"
+        v-else
+        src="../../public/loading.gif"
+        alt="loading"
+        width="200"
+        height="200"
+      />
     </div>
     <div v-if="filteredProducts.length === 0 && products.length > 0">
       Ничего не найдено по запросу {{ searchText }}
@@ -145,6 +159,10 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 1.12rem;
+
+    @media (max-width: 37.5rem) {
+      gap: 0.62rem;
+    }
   }
 
   &__basket {
@@ -193,6 +211,11 @@ h2 {
     pointer-events: none;
 
     transition: filter 0.3s ease-in;
+
+    @media (max-width: 37.5rem) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
   }
 
   &__inputs--active {
@@ -201,9 +224,30 @@ h2 {
   }
 
   &__cards-block {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 64rem) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 48.25rem) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.62rem;
+    }
+
+    @media (max-width: 37.5rem) {
+      grid-template-columns: 1fr;
+      row-gap: 0.62rem;
+    }
+  }
+
+  &__loader {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
@@ -212,6 +256,10 @@ h2 {
   width: 100%;
 
   position: relative;
+
+  @media (max-width: 37.5rem) {
+    max-width: unset;
+  }
 }
 
 .custom-input__label {

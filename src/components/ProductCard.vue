@@ -1,13 +1,22 @@
 <template>
   <article class="product-card">
     <div class="product-card__main">
-      <picture class="product-card__picture">
-        <source type="webp" :srcset="product.images[0]" />
-        <img :src="product.images[0]" srcset="" :alt="product.title" width="200" height="200" />
-      </picture>
-      <div class="product-card__text-block">
-        <h2 class="product-card__title">{{ product.title }}</h2>
-        <p class="product-card__description">{{ product.description }}</p>
+      <div class="product-card__main-info">
+        <picture class="product-card__picture">
+          <source type="webp" :srcset="product.images[0]" />
+          <img
+            class="product-card__img"
+            :src="product.images[0]"
+            srcset=""
+            :alt="product.title"
+            width="200"
+            height="200"
+          />
+        </picture>
+        <div class="product-card__text-block">
+          <h2 class="product-card__title">{{ product.title }}</h2>
+          <p class="product-card__description">{{ product.description }}</p>
+        </div>
       </div>
       <div class="product-card__all-info">
         <div class="product-card__inner-info">
@@ -75,7 +84,6 @@ const productInBasket = computed(() => {
 <style scoped lang="scss">
 .product-card {
   min-height: 12.5rem;
-  max-width: 13.75rem;
   border-radius: 0.5rem;
   outline: 1px solid aqua;
   overflow: hidden;
@@ -87,6 +95,25 @@ const productInBasket = computed(() => {
     align-items: flex-start;
     padding: 0.62rem;
     height: 100%;
+  }
+
+  &__main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+
+    @media (max-width: 37.5rem) {
+      align-items: center;
+    }
+  }
+
+  &__picture {
+    transform: translateX(9%);
+    transition: transform 0.3s ease-in;
+
+    @media (max-width: 37.5rem) {
+      transform: unset;
+    }
   }
 
   &__info-btn,
@@ -102,6 +129,7 @@ const productInBasket = computed(() => {
     gap: 0.62rem;
     height: 100%;
   }
+
   &__title {
     font-size: 1.4rem;
     line-height: 110%;

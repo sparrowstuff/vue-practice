@@ -25,7 +25,5 @@ export const useBasketStore = defineStore('basket', () => {
     }
   }
 
-  // const basketItems = computed(() => booksInBasket.value.length)
-
   return { addInBasket, productsInBasket, isInBasket, removeFromBasket }
 })

@@ -16,7 +16,8 @@
       >Catalog</router-link
     >
     <router-link @click="roadToPosts" to="/posts" class="nav-menu__page-link">Posts</router-link>
-    <router-link to="/basket" class="nav-menu__page-link">
+    <router-link to="/basket" class="nav-menu__page-link nav-menu__basket-link">
+      <span class="nav-menu__basket-counter">{{ basket.productsInBasket.length }}</span>
       <span>Basket</span>
       <svg
         width="40"
@@ -38,16 +39,23 @@
 </template>
 
 <script setup>
+import { useBasketStore } from '@/stores/basket'
 import { onMounted, ref, computed, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const burgerMenuIsOpen = ref(false)
 const mobileMenuIsShown = ref(false)
 
+// burger func
 const openBurger = () => {
   burgerMenuIsOpen.value = !burgerMenuIsOpen.value
 }
 
+const checkWindowWidth = () => {
+  mobileMenuIsShown.value = window.innerWidth < 1024
+}
+
+// router func
 const router = useRouter()
 
 const roadToCatalog = () => {
@@ -58,10 +66,7 @@ const roadToPosts = () => {
   router.push({ name: 'posts' })
 }
 
-const checkWindowWidth = () => {
-  mobileMenuIsShown.value = window.innerWidth < 1024
-}
-
+// mount func
 onMounted(() => {
   checkWindowWidth()
   window.addEventListener('resize', checkWindowWidth)
@@ -70,6 +75,10 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', checkWindowWidth)
 })
+
+// basket
+
+const basket = useBasketStore()
 </script>
 
 <style scoped lang="scss">
@@ -120,7 +129,7 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 1rem;
     align-items: center;
-    background-color: rgb(131, 243, 243);
+    background-color: rgb(131 243 243 / 34%);
     outline: 1px solid black;
     border-radius: 0.5rem;
     padding: 1rem 0.62rem 0.62rem 0.62rem;
@@ -166,6 +175,29 @@ onUnmounted(() => {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
       }
+    }
+
+    #{$root}__basket-link {
+      position: relative;
+    }
+
+    #{$root}__basket-counter {
+      display: flex;
+      width: 1.5rem;
+      height: 1.5rem;
+      overflow: hidden;
+      border-radius: 50%;
+      background-color: rgb(255, 131, 131);
+      align-items: center;
+      justify-content: center;
+
+      position: absolute;
+      top: -5%;
+      right: -1%;
+      z-index: 2;
+
+      color: rgb(0, 0, 0);
+      font-size: 0.82rem;
     }
   }
 
