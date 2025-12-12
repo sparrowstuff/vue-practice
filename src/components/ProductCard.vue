@@ -38,17 +38,26 @@
           <span class="product-card__warranty"
             ><b>{{ product.warrantyInformation }}</b></span
           >
+          <span class="product-card__category"
+            >Категория: <b>{{ product.category }}</b></span
+          >
+          <span class="product-card__discount"
+            >Скидка дня: <b>{{ product.discountPercentage }}</b
+            >%</span
+          >
         </div>
       </div>
-      <button class="product-card__info-btn btn" type="button">Подробнее</button>
-      <button
-        class="product-card__basket-btn btn"
-        :class="[{ 'btn--notActive': !auth.isAuthorized }, { 'btn--active': productInBasket }]"
-        type="button"
-        @click="addInBasket"
-      >
-        {{ isAdded ? 'Удалить' : 'В корзину' }}
-      </button>
+      <div class="product-card__btn-block">
+        <button class="product-card__info-btn btn" type="button">Подробнее</button>
+        <button
+          class="product-card__basket-btn btn"
+          :class="[{ 'btn--notActive': !auth.isAuthorized }, { 'btn--active': productInBasket }]"
+          type="button"
+          @click="addInBasket"
+        >
+          {{ isAdded ? 'Удалить' : 'В корзину' }}
+        </button>
+      </div>
     </div>
   </article>
 </template>
@@ -118,7 +127,6 @@ const productInBasket = computed(() => {
 
   &__info-btn,
   &__basket-btn {
-    margin-top: auto;
     width: 100%;
     font-size: 1rem;
   }
@@ -145,6 +153,7 @@ const productInBasket = computed(() => {
     flex-direction: column;
     gap: 0.62rem;
     width: 100%;
+    margin-top: auto;
   }
 
   &__inner-info {
@@ -164,6 +173,13 @@ const productInBasket = computed(() => {
   }
 
   &__additional-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.32rem;
+  }
+
+  &__btn-block {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.62rem;
