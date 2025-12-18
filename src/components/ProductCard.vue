@@ -55,7 +55,14 @@
           type="button"
           @click="addInBasket"
         >
-          {{ isAdded ? 'Удалить' : 'В корзину' }}
+          <img
+            v-if="isAdded"
+            src="../svg/delete-icon.svg"
+            alt="Delete-icon"
+            width="20"
+            height="20"
+          />
+          <span v-else class="product-card__basket-btn-text">В корзину</span>
         </button>
       </div>
     </div>
@@ -128,6 +135,14 @@ const productInBasket = computed(() => {
   &__info-btn,
   &__basket-btn {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 2.5rem;
+  }
+
+  &__basket-btn-text {
     font-size: 1rem;
   }
 
