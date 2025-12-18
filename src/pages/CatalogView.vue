@@ -10,16 +10,17 @@
         Фильтры
       </button>
     </div>
+
     <div
       class="catalog__inputs"
       v-show="!showFiltersMenu"
       :class="{ 'catalog__inputs--active': auth.isAuthorized }"
     >
-      <div class="custom-input">
+      <div class="custom-input" :class="{ 'has-value': hasSearchText }">
         <label for="searchTitle" class="custom-input__label">Название: </label>
         <input type="text" id="searchTitle" class="custom-input__input" v-model="searchText" />
       </div>
-      <div class="custom-input">
+      <div class="custom-input" :class="{ 'has-value': hasSearchMinPrice }">
         <label for="searchMin" class="custom-input__label">Цена&nbsp;от ($): </label>
         <input
           type="number"
@@ -30,7 +31,7 @@
           v-model="searchMin"
         />
       </div>
-      <div class="custom-input">
+      <div class="custom-input" :class="{ 'has-value': hasSearchMaxPrice }">
         <label for="searchMax" class="custom-input__label">Цена&nbsp;до ($): </label>
         <input
           type="number"
@@ -41,10 +42,17 @@
           v-model="searchMax"
         />
       </div>
+      <div class="custom-select">
+        <label for="selectCategory" class="custom-select__label">Выберите категорию: </label>
+        <select name="categories" id="selectCategory" v-model="selectCategories">
+          <option v-for="category in categories" :key="category.value" :value="category.value">
+            {{ category.label }}
+          </option>
+        </select>
+      </div>
+      <button class="custom-select__reset-btn btn" @click="resetSelection">Сбросить фильтры</button>
     </div>
-    <div class="catalog__favorites">
-      <span class="catalog__fav-names"></span>
-    </div>
+
     <Transition name="loading" mode="out-in">
       <div class="catalog__loading" v-if="isLoading" key="loading">
         <img class="catalog__loader" src="/loading.gif" alt="loading" width="200" height="200" />
@@ -85,6 +93,33 @@ const auth = useAuthStore()
 const basket = useBasketStore()
 const isLoading = ref(true) // флаг загрузки
 const showFiltersMenu = ref(true)
+const selectCategories = ref([])
+
+const categories = [
+  { value: 'beauty', label: 'Красота' },
+  { value: 'fragrances', label: 'Духи' },
+  { value: 'furniture', label: 'Мебель' },
+  { value: 'groceries', label: 'Продукты' },
+]
+
+const resetSelection = () => {
+  selectCategories.value = ''
+  searchText.value = ''
+  searchMin.value = ''
+  searchMax.value = ''
+}
+
+const hasSearchText = computed(() => {
+  return searchText.value.trim() !== ''
+})
+
+const hasSearchMinPrice = computed(() => {
+  return searchMin.value !== ''
+})
+
+const hasSearchMaxPrice = computed(() => {
+  return searchMax.value !== ''
+})
 
 const loadData = async () => {
   isLoading.value = false
@@ -113,6 +148,14 @@ const filteredProducts = computed(() => {
     filtered = filtered.filter((product) => product.price <= Number(searchMax.value))
   }
 
+  if (selectCategories.value === 'beauty') {
+    filtered = filtered.filter((product) => product.category.includes(selectCategories.value))
+  }
+
+  if (selectCategories.value.length > 0) {
+    filtered = filtered.filter((product) => selectCategories.value.includes(product.category))
+  }
+
   return filtered
 })
 
@@ -123,8 +166,6 @@ watch([searchText, searchMin, searchMax], () => {
     clearTimeout(timer)
   }
 })
-
-const addingAnimation = () => {}
 </script>
 
 <style scoped lang="scss">
@@ -256,7 +297,13 @@ h2 {
   &:focus-within,
   &:active {
     #{$root}__label {
-      // scale: 0.9;
+      color: black;
+      transform: translateY(-80%);
+    }
+  }
+
+  &.has-value {
+    #{$root}__label {
       color: black;
       transform: translateY(-80%);
     }
@@ -275,7 +322,6 @@ h2 {
 
     transition:
       transform 0.3s ease-in,
-      scale 0.3s ease-in,
       color 0.3s ease-in;
   }
 
@@ -291,6 +337,9 @@ h2 {
       font-size: 1.1rem;
     }
   }
+}
+
+.custom-select {
 }
 
 // анимационные стили
