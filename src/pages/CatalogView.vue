@@ -2,39 +2,42 @@
   <div class="catalog">
     <div class="catalog__title-block">
       <h2 class="catalog__title">Каталог товаров</h2>
+      <button
+        class="catalog__show-filters-btn btn"
+        type="button"
+        @click="showFiltersMenu = !showFiltersMenu"
+      >
+        Фильтры
+      </button>
     </div>
-    <div class="catalog__inputs" :class="{ 'catalog__inputs--active': auth.isAuthorized }">
+    <div
+      class="catalog__inputs"
+      v-show="!showFiltersMenu"
+      :class="{ 'catalog__inputs--active': auth.isAuthorized }"
+    >
       <div class="custom-input">
         <label for="searchTitle" class="custom-input__label">Название: </label>
-        <input
-          type="text"
-          id="searchTitle"
-          class="custom-input__input"
-          placeholder="Поиск"
-          v-model="searchText"
-        />
+        <input type="text" id="searchTitle" class="custom-input__input" v-model="searchText" />
       </div>
       <div class="custom-input">
-        <label for="searchMin" class="custom-input__label">Цена&nbsp;от: </label>
+        <label for="searchMin" class="custom-input__label">Цена&nbsp;от ($): </label>
         <input
           type="number"
           min="1"
           max="100"
           id="searchMin"
           class="custom-input__input"
-          placeholder="$"
           v-model="searchMin"
         />
       </div>
       <div class="custom-input">
-        <label for="searchMax" class="custom-input__label">Цена&nbsp;до: </label>
+        <label for="searchMax" class="custom-input__label">Цена&nbsp;до ($): </label>
         <input
           type="number"
           min="1"
           max="100"
           id="searchMax"
           class="custom-input__input"
-          placeholder="$"
           v-model="searchMax"
         />
       </div>
@@ -42,26 +45,28 @@
     <div class="catalog__favorites">
       <span class="catalog__fav-names"></span>
     </div>
-    <div class="catalog__cards-block">
-      <ProductCard
-        v-if="filteredProducts.length !== 0"
-        v-for="product in filteredProducts"
-        :key="product.id"
-        :product="product"
-        class="product-card"
-      />
-      <img
-        class="catalog__loader"
-        v-else
-        src="/loading.gif"
-        alt="loading"
-        width="200"
-        height="200"
-      />
-    </div>
-    <div v-if="filteredProducts.length === 0 && products.length > 0">
-      Ничего не найдено по запросу {{ searchText }}
-    </div>
+    <Transition name="loading" mode="out-in">
+      <div class="catalog__loading" v-if="isLoading" key="loading">
+        <img class="catalog__loader" src="/loading.gif" alt="loading" width="200" height="200" />
+      </div>
+      <TransitionGroup class="catalog__cards-block" v-else key="products" name="list" tag="div">
+        <ProductCard
+          v-if="filteredProducts.length !== 0"
+          v-for="product in filteredProducts"
+          :key="product.id"
+          :product="product"
+          class="product-card"
+        />
+      </TransitionGroup>
+    </Transition>
+    <Transition name="fade">
+      <div
+        v-if="!isLoading && filteredProducts.length === 0 && products.length > 0"
+        class="catalog__no-results"
+      >
+        Ничего не найдено по запросу "{{ searchText || searchMin || searchMax }}"
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -78,8 +83,11 @@ const searchMin = ref('')
 const searchMax = ref('')
 const auth = useAuthStore()
 const basket = useBasketStore()
+const isLoading = ref(true) // флаг загрузки
+const showFiltersMenu = ref(true)
 
 const loadData = async () => {
+  isLoading.value = false
   const data = await getProducts()
   products.value = data
 }
@@ -107,6 +115,16 @@ const filteredProducts = computed(() => {
 
   return filtered
 })
+
+watch([searchText, searchMin, searchMax], () => {
+  const timer = setTimeout(() => {}, 50)
+
+  return () => {
+    clearTimeout(timer)
+  }
+})
+
+const addingAnimation = () => {}
 </script>
 
 <style scoped lang="scss">
@@ -120,6 +138,7 @@ h2 {
   &__title-block {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.62rem;
     margin-bottom: 1.62rem;
   }
@@ -177,6 +196,16 @@ h2 {
     }
   }
 
+  &__no-results {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+  }
+
   &__inputs--active {
     filter: unset;
     pointer-events: all;
@@ -224,16 +253,18 @@ h2 {
 
   &:hover,
   &:focus-visible,
+  &:focus-within,
   &:active {
     #{$root}__label {
-      scale: 0.9;
+      // scale: 0.9;
       color: black;
+      transform: translateY(-80%);
     }
   }
 
   &__label {
     position: absolute;
-    top: -34%;
+    top: 20%;
     left: 3%;
     font-size: 1rem;
     padding: 0.2rem 0.4rem 0.2rem 0.2rem;
@@ -260,5 +291,57 @@ h2 {
       font-size: 1.1rem;
     }
   }
+}
+
+// анимационные стили
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+.list-move {
+  transition: transform 0.3s ease;
+}
+
+// анимация появления/исчезновения
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// анимация загрузки
+.loading-enter-active,
+.loading-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.loading-enter-from,
+.loading-leave-to {
+  opacity: 0;
+}
+
+// стили для карточек товара с анимацией
+.product-card {
+  transition: all 0.3s ease;
 }
 </style>

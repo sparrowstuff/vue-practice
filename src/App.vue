@@ -2,6 +2,7 @@
 import HeaderLayout from './components/HeaderLayout.vue'
 import './assets/css/fonts.css'
 import './style.css'
+import '../public/css/_normalize.css'
 </script>
 
 <template>

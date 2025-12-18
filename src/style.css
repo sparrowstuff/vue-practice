@@ -50,12 +50,18 @@ img {
   border: unset;
   outline: 1px solid aqua;
   border-radius: 0.25rem;
-  padding: 0.5rem 0.3rem 0.35rem 0.3rem;
+  padding: 0.5rem 0.5rem 0.35rem 0.5rem;
 
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   line-height: 120%;
 
   transition: all 0.3s ease-in;
+}
+
+.btn:hover,
+.btn:focus-visible,
+.btn:active {
+  box-shadow: 2px 2px 2px 0 black;
 }
 
 .btn::after {
@@ -105,4 +111,31 @@ img {
 .btn:focus-within::after,
 .btn:active::after {
   opacity: 1;
+}
+
+/* стили vue для появления карточек */
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.v-leave-active {
+  position: absolute;
+}
+
+/* стили vue для загрузки */
+.loading-enter-active,
+.loading-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.loading-enter-from,
+.loading-leave-to {
+  opacity: 0;
 }
