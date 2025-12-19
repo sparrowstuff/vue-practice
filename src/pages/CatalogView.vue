@@ -241,7 +241,7 @@ h2 {
 
     transition: filter 0.3s ease-in;
 
-    @media (max-width: 37.5rem) {
+    @media (max-width: 54.68rem) {
       flex-direction: column;
       gap: 1.5rem;
     }
@@ -296,7 +296,7 @@ h2 {
   position: relative;
   $root: &;
 
-  @media (max-width: 37.5rem) {
+  @media (max-width: 54.68rem) {
     max-width: unset;
   }
 
@@ -336,7 +336,7 @@ h2 {
   &__input {
     width: 100%;
     height: 2.5rem;
-    padding: 0.4rem 0.3rem 0.1rem 0.3rem;
+    padding: 0.2rem 0.3rem 0.1rem 0.3rem;
     border: unset;
     border-radius: 0.5rem;
     outline: 2px solid aqua;
@@ -360,6 +360,10 @@ h2 {
     }
   }
 
+  @media (max-width: 54.68rem) {
+    max-width: unset;
+  }
+
   &__label {
     position: absolute;
     top: -29%;
@@ -380,7 +384,7 @@ h2 {
     border: unset;
     outline: 1px solid aqua;
     border-radius: 0.5rem;
-    padding: 0.3rem 0.3rem 0.1rem 0.3rem;
+    padding: 0.2rem 0.3rem 0.1rem 0.3rem;
     color: aqua;
   }
 

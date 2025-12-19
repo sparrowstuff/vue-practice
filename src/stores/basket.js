@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from './auth'
 
 export const useBasketStore = defineStore('basket', () => {
@@ -25,5 +25,14 @@ export const useBasketStore = defineStore('basket', () => {
     }
   }
 
-  return { addInBasket, productsInBasket, isInBasket, removeFromBasket }
+  const totalBasketPrice = computed(() => {
+    if (productsInBasket.value.length === 0) return 0
+
+    return productsInBasket.value.reduce((total, product) => {
+      const price = Number(product.price) || 0
+      return total + price
+    }, 0)
+  })
+
+  return { addInBasket, productsInBasket, isInBasket, removeFromBasket, totalBasketPrice }
 })

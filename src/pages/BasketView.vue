@@ -1,9 +1,12 @@
 <template>
   <div class="basket">
     <h2 class="basket__title">Корзина товаров</h2>
-    <h3 class="basket__no-products-added" v-if="basket.productsInBasket.length === 0">
+    <span class="basket__no-products-added" v-if="basket.productsInBasket.length === 0">
       Не выбрано ни одного товара
-    </h3>
+    </span>
+    <span class="basket__total-price" v-else
+      >Итого: <b>{{ basket.totalBasketPrice }}</b> $</span
+    >
     <div class="basket__catalog">
       <BasketProduct
         v-for="product in basket.productsInBasket"
@@ -84,8 +87,13 @@ watch(nameInput, () => {})
   gap: 0.62rem;
   margin-bottom: 2rem;
 
+  &__title {
+    font-size: 1.6rem;
+  }
+
   &__no-products-added {
     font-weight: 500;
+    font-size: 1.1rem;
   }
 
   &__catalog {
@@ -106,6 +114,10 @@ watch(nameInput, () => {})
       grid-template-columns: 1fr;
       row-gap: 0.62rem;
     }
+  }
+
+  &__total-price {
+    font-size: 1.4rem;
   }
 }
 
