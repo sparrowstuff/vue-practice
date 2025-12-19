@@ -37,7 +37,13 @@
           class="basket-card__remove-btn btn btn--small"
           @click="removeFromBasket(product.id)"
         >
-          Удалить
+          <img
+            class="basket-product__delete-icon"
+            src="../svg/delete-icon.svg"
+            alt="Delete-icon"
+            width="20"
+            height="20"
+          />
         </button>
       </div>
     </div>
@@ -130,6 +136,12 @@ const props = defineProps({
   &__price-number,
   &__rating-number {
     font-weight: 600;
+  }
+
+  &__remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

@@ -56,13 +56,18 @@
           @click="addInBasket"
         >
           <img
-            v-if="isAdded"
+            class="product-card__delete-icon"
+            :class="{ 'product-card__delete-icon-active': !basketBtnTextAppearance }"
             src="../svg/delete-icon.svg"
             alt="Delete-icon"
             width="20"
             height="20"
           />
-          <span v-else class="product-card__basket-btn-text">В корзину</span>
+          <span
+            class="product-card__basket-btn-text"
+            :class="{ 'product-card__basket-btn-text-notActive': !basketBtnTextAppearance }"
+            >В корзину</span
+          >
         </button>
       </div>
     </div>
@@ -76,6 +81,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const basketStore = useBasketStore()
 const auth = useAuthStore()
+let basketBtnTextAppearance = ref(true)
 
 const props = defineProps({
   product: {
@@ -85,12 +91,13 @@ const props = defineProps({
 })
 
 const addInBasket = () => {
+  basketBtnTextAppearance = !basketBtnTextAppearance
   basketStore.addInBasket(props.product)
 }
 
-const isAdded = computed(() => {
-  return basketStore.productsInBasket.some((el) => el.id === props.product.id)
-})
+// const isAdded = computed(() => {
+//   return basketStore.productsInBasket.some((el) => el.id === props.product.id)
+// })
 
 const productInBasket = computed(() => {
   return basketStore.isInBasket(props.product.id)
@@ -140,10 +147,32 @@ const productInBasket = computed(() => {
     justify-content: center;
 
     min-height: 2.5rem;
+
+    position: relative;
   }
 
   &__basket-btn-text {
     font-size: 1rem;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+  }
+
+  &__delete-icon {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__basket-btn-text-notActive {
+    opacity: 0;
+  }
+
+  &__delete-icon-active {
+    opacity: 1;
   }
 
   &__text-block {

@@ -43,9 +43,19 @@
         />
       </div>
       <div class="custom-select">
-        <label for="selectCategory" class="custom-select__label">Выберите категорию: </label>
-        <select name="categories" id="selectCategory" v-model="selectCategories">
-          <option v-for="category in categories" :key="category.value" :value="category.value">
+        <label for="selectCategory" class="custom-select__label">Выберите&nbsp;категорию: </label>
+        <select
+          class="custom-select__select"
+          name="categories"
+          id="selectCategory"
+          v-model="selectCategories"
+        >
+          <option
+            v-for="category in categories"
+            :key="category.value"
+            :value="category.value"
+            class="custom-select__option"
+          >
             {{ category.label }}
           </option>
         </select>
@@ -283,9 +293,7 @@ h2 {
 .custom-input {
   max-width: 12.5rem;
   width: 100%;
-
   position: relative;
-
   $root: &;
 
   @media (max-width: 37.5rem) {
@@ -340,10 +348,52 @@ h2 {
 }
 
 .custom-select {
+  max-width: 12.5rem;
+  width: 100%;
+  position: relative;
+  $root: &;
+
+  &:hover,
+  &:focus-visible {
+    #{$root}__label {
+      color: black;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: -29%;
+    left: 5%;
+    font-size: 1rem;
+    color: aqua;
+    padding: 0.2rem 0.4rem 0.2rem 0.2rem;
+    border-radius: 5%;
+    background-color: white;
+    pointer-events: none;
+    transition: color 0.3s ease-in;
+  }
+
+  &__select {
+    width: 100%;
+    height: 2.5rem;
+
+    border: unset;
+    outline: 1px solid aqua;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.3rem 0.1rem 0.3rem;
+    color: aqua;
+  }
+
+  &__option {
+    color: aqua;
+  }
+
+  &__reset-btn {
+    margin-left: auto;
+  }
 }
 
 // анимационные стили
-
 .list-enter-active,
 .list-leave-active {
   transition: all 0.3s ease;

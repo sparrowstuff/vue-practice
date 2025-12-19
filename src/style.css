@@ -14,6 +14,11 @@
   font-family: 'Blogger sans', 'Arial', sans-serif;
 }
 
+body {
+  scroll-behavior: smooth;
+  /* background-color: rgba(128, 128, 128, 0.32); */
+}
+
 a,
 h1,
 h2,
