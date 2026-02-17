@@ -1,9 +1,12 @@
 <template>
   <div class="basket">
     <h2 class="basket__title">Корзина товаров</h2>
-    <span class="basket__no-products-added" v-if="basket.productsInBasket.length === 0">
-      Не выбрано ни одного товара
-    </span>
+    <div class="basket__no-products-added" v-if="basket.productsInBasket.length === 0">
+      <span class="basket__no-products-text">Не выбрано ни одного товара</span>
+      <button class="basket__go-to-catalog-btn" type="button" @click="goToCatalog">
+        В каталог
+      </button>
+    </div>
     <span class="basket__total-price" v-else
       >Итого: <b>{{ basket.totalBasketPrice }}</b> $</span
     >
@@ -68,6 +71,7 @@
 
 <script setup>
 import BasketProduct from '@/components/BasketProduct.vue'
+import router from '@/router/router'
 import { useBasketStore } from '@/stores/basket'
 import { ref, watch } from 'vue'
 
@@ -78,6 +82,10 @@ const emailInput = ref('')
 const addressInput = ref('')
 
 watch(nameInput, () => {})
+
+const goToCatalog = () => {
+  router.push('/catalog')
+}
 </script>
 
 <style scoped lang="scss">
@@ -92,8 +100,31 @@ watch(nameInput, () => {})
   }
 
   &__no-products-added {
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+    align-items: flex-start;
+  }
+
+  &__no-products-text {
     font-weight: 500;
     font-size: 1.1rem;
+  }
+
+  &__go-to-catalog-btn {
+    padding: 0.5rem 0.62rem;
+    border-radius: 0.8rem;
+    background-color: transparent;
+    border: 2px solid aqua;
+    transition:
+      color 0.3s ease-in,
+      box-shadow 0.3s ease-in;
+
+    &:hover,
+    &:focus-visible {
+      color: aqua;
+      box-shadow: 2px 2px 2px 0 black;
+    }
   }
 
   &__catalog {

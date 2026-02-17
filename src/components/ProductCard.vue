@@ -7,7 +7,6 @@
           <img
             class="product-card__img"
             :src="product.images[0]"
-            srcset=""
             :alt="product.title"
             width="200"
             height="200"
@@ -48,7 +47,9 @@
         </div>
       </div>
       <div class="product-card__btn-block">
-        <button class="product-card__info-btn btn" type="button">Подробнее</button>
+        <button class="product-card__info-btn btn" type="button" @click="goToDetailedProduct">
+          Подробнее
+        </button>
         <button
           class="product-card__basket-btn btn"
           :class="[{ 'btn--notActive': !auth.isAuthorized }, { 'btn--active': productInBasket }]"
@@ -78,16 +79,14 @@
 import { ref, defineProps, computed } from 'vue'
 import { useBasketStore } from '@/stores/basket'
 import { useAuthStore } from '@/stores/auth'
+import router from '@/router/router'
 
 const basketStore = useBasketStore()
 const auth = useAuthStore()
 let basketBtnTextAppearance = ref(true)
 
 const props = defineProps({
-  product: {
-    type: Object,
-    required: true,
-  },
+  product: Object,
 })
 
 const addInBasket = () => {
@@ -95,13 +94,13 @@ const addInBasket = () => {
   basketStore.addInBasket(props.product)
 }
 
-// const isAdded = computed(() => {
-//   return basketStore.productsInBasket.some((el) => el.id === props.product.id)
-// })
-
 const productInBasket = computed(() => {
   return basketStore.isInBasket(props.product.id)
 })
+
+const goToDetailedProduct = () => {
+  router.push(`/product/${props.product.id}`)
+}
 </script>
 
 <style scoped lang="scss">

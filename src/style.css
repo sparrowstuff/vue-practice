@@ -49,6 +49,12 @@ img {
   object-fit: cover;
 }
 
+ul {
+  list-style: none;
+  padding: unset;
+  margin: unset;
+}
+
 .btn {
   position: relative;
   background-color: transparent;

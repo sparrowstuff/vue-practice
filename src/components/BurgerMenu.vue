@@ -46,7 +46,6 @@ import { useRouter } from 'vue-router'
 const burgerMenuIsOpen = ref(false)
 const mobileMenuIsShown = ref(false)
 
-// burger func
 const openBurger = () => {
   burgerMenuIsOpen.value = !burgerMenuIsOpen.value
 }
@@ -55,7 +54,6 @@ const checkWindowWidth = () => {
   mobileMenuIsShown.value = window.innerWidth < 1024
 }
 
-// router func
 const router = useRouter()
 
 const roadToCatalog = () => {
@@ -66,7 +64,6 @@ const roadToPosts = () => {
   router.push({ name: 'posts' })
 }
 
-// mount func
 onMounted(() => {
   checkWindowWidth()
   window.addEventListener('resize', checkWindowWidth)
@@ -129,7 +126,7 @@ const basket = useBasketStore()
     flex-direction: column;
     gap: 1rem;
     align-items: center;
-    background-color: rgb(131 243 243 / 34%);
+    background-color: white;
     outline: 1px solid black;
     border-radius: 0.5rem;
     padding: 1rem 0.62rem 0.62rem 0.62rem;
