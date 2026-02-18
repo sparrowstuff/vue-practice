@@ -1,17 +1,32 @@
 import { defineStore, storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useAuthStore } from './auth'
 
 export const useBasketStore = defineStore('basket', () => {
-  const productsInBasket = ref([])
+  const savedProducts = localStorage.getItem('basket_products')
+  const productsInBasket = ref(savedProducts ? JSON.parse(savedProducts) : [])
 
   const { isAuthorized } = storeToRefs(useAuthStore())
 
+  watch(
+    productsInBasket,
+    (newBasket) => {
+      localStorage.setItem('basket_products', JSON.stringify(newBasket))
+    },
+    { deep: true },
+  )
+
   const addInBasket = (product) => {
+    if (!isAuthorized) return
+
     if (isAuthorized.value) {
       if (productsInBasket.value.some((el) => el.id === product.id)) {
         productsInBasket.value = productsInBasket.value.filter((el) => el.id !== product.id)
-      } else productsInBasket.value.push(product)
+      } else {
+        productsInBasket.value.push(product)
+
+        localStorage.setItem('basket_products', JSON.stringify([productsInBasket.value]))
+      }
     }
   }
 

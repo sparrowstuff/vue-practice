@@ -153,6 +153,8 @@ const goToCatalog = () => {
 }
 
 .get-products-form {
+  margin-bottom: 1.25rem;
+
   &__form {
     width: 100%;
     display: flex;
@@ -166,10 +168,20 @@ const goToCatalog = () => {
     flex-direction: column;
     gap: 1.5rem;
     justify-content: center;
+
+    @media (max-width: 48rem) {
+      width: 100%;
+    }
   }
 
   &__submit-btn {
     font-size: 1rem;
+  }
+
+  &__img {
+    @media (max-width: 48rem) {
+      display: none;
+    }
   }
 }
 
@@ -181,7 +193,7 @@ const goToCatalog = () => {
 
   $root: &;
 
-  @media (max-width: 37.5rem) {
+  @media (max-width: 48rem) {
     max-width: unset;
   }
 

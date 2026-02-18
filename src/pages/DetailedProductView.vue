@@ -322,10 +322,28 @@ watch(
     line-height: 100%;
   }
 
+  &__inner-rating {
+    display: flex;
+    gap: 0.62rem;
+    align-items: center;
+  }
+
   &__score {
     border-radius: 50%;
     padding: 0.3rem;
     border: 1px solid aqua;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+}
+
+.product-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-25%, -50%);
 }
 </style>

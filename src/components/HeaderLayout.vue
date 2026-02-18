@@ -70,7 +70,6 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import BurgerMenu from './BurgerMenu.vue'
 import { useBasketStore } from '@/stores/basket'
 
-// router func
 const router = useRouter()
 
 const roadToMainPage = () => {
@@ -85,11 +84,12 @@ const roadToPosts = () => {
   router.push({ name: 'posts' })
 }
 
-// auth func
 const auth = useAuthStore()
 
 const authorize = () => {
-  auth.isAuthorized = !auth.isAuthorized
+  if (!auth.isAuthorized) {
+    auth.login()
+  } else auth.logout()
 }
 
 // nav menu appearance
@@ -99,7 +99,6 @@ const checkWindowWidth = () => {
   showDesktopNav.value = window.innerWidth > 1024
 }
 
-// mount func
 onMounted(() => {
   checkWindowWidth()
   window.addEventListener('resize', checkWindowWidth)
