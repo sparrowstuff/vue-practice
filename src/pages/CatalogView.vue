@@ -63,6 +63,12 @@
       <button class="custom-select__reset-btn btn" @click="resetSelection">Сбросить фильтры</button>
     </div>
 
+    <AppPagination
+      v-if="!isLoading"
+      :total-pages="totalPages"
+      :current-page="pagination.page"
+      @update:current-page="changePage"
+    />
     <Transition name="loading" mode="out-in">
       <div class="catalog__loading" v-if="isLoading" key="loading">
         <img class="catalog__loader" src="/loading.gif" alt="loading" width="200" height="200" />
@@ -70,7 +76,7 @@
       <TransitionGroup class="catalog__cards-block" v-else key="products" name="list" tag="div">
         <ProductCard
           v-if="filteredProducts.length !== 0"
-          v-for="product in filteredProducts"
+          v-for="product in paginatedProducts"
           :key="product.id"
           :product="product"
           class="product-card"
@@ -94,14 +100,24 @@ import ProductCard from '@/components/ProductCard.vue'
 import { ref, watch, computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useBasketStore } from '@/stores/basket'
+import AppPagination from '@/components/AppPagination.vue'
 
 const products = ref([])
 const searchText = ref('')
 const searchMin = ref('')
 const searchMax = ref('')
+const pagination = ref({
+  page: 1,
+  pages: 0,
+  total: 0,
+})
+const ITEMS_PER_PAGE = 8
+
 const auth = useAuthStore()
 const basket = useBasketStore()
+
 const isLoading = ref(true) // флаг загрузки
+
 const showFiltersMenu = ref(true)
 const selectCategories = ref([])
 
@@ -131,11 +147,31 @@ const hasSearchMaxPrice = computed(() => {
   return searchMax.value !== ''
 })
 
-const loadData = async () => {
-  isLoading.value = false
-  const data = await getProducts()
-  products.value = data
+const loadData = async (page) => {
+  isLoading.value = true
+  try {
+    const data = await getProducts()
+    products.value = data
+  } catch (err) {
+    throw new Error(err.message)
+  } finally {
+    isLoading.value = false
+  }
 }
+
+const changePage = async (page) => {
+  pagination.value.page = page
+}
+
+const paginatedProducts = computed(() => {
+  const start = (pagination.value.page - 1) * ITEMS_PER_PAGE
+  const end = start + ITEMS_PER_PAGE
+  return filteredProducts.value.slice(start, end)
+})
+
+const totalPages = computed(() => Math.ceil(filteredProducts.value.length / ITEMS_PER_PAGE))
+
+loadData(pagination.value.page)
 
 onMounted(() => {
   loadData()
@@ -172,6 +208,8 @@ const filteredProducts = computed(() => {
 watch([searchText, searchMin, searchMax], () => {
   const timer = setTimeout(() => {}, 50)
 
+  pagination.value.page = 1
+
   return () => {
     clearTimeout(timer)
   }
@@ -186,6 +224,8 @@ h2 {
 }
 
 .catalog {
+  margin-bottom: 1.25rem;
+
   &__title-block {
     display: flex;
     align-items: center;

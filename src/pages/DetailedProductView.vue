@@ -125,8 +125,6 @@ const product = ref(null)
 let basketBtnTextAppearance = ref(true)
 
 const productReviews = computed(() => product.reviews)
-console.log(productReviews.value)
-
 const fetchProduct = async (id) => {
   try {
     const response = await fetch(`https://dummyjson.com/products/${id}`)
