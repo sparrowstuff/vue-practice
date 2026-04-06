@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Jura Medium';
+  src:
+    url('../../assets/fonts/juramedium.woff2') format('woff2'),
+    url('../../assets/fonts/juramedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Saira Custom';
+  src:
+    url('../../assets/fonts/saira-regular.woff2') format('woff2'),
+    url('../../assets/fonts/saira-regular.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

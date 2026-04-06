@@ -1,0 +1,72 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  // outline: 4px solid black;
+}
+
+html {
+  scroll-behavior: smooth;
+  // overflow-x: hidden;
+}
+
+body {
+  background-image: linear-gradient(to bottom, #b4318d, #ca2f71, #d43e55, #d2543b, #c86b24);
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  font-family: $check-font;
+  min-height: 100vh;
+  max-width: 100vw;
+  height: 100%;
+  padding: 0;
+  margin: unset;
+  flex-grow: 1;
+}
+
+picture {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+footer {
+  margin-top: auto;
+}

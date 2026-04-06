@@ -1,6 +1,6 @@
 <template>
   <button
-    class="burger-btn"
+    class="burger-btn btn"
     :class="{ 'burger-btn--active': burgerMenuIsOpen }"
     @click="openBurger"
   >
@@ -85,6 +85,7 @@ const basket = useBasketStore()
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 0.3rem;
   $root: &;
 
