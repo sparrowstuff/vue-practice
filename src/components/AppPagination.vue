@@ -66,7 +66,7 @@ const goToPage = (page) => {
 .pagination__prev-page-btn,
 .pagination__current-page-btn,
 .pagination__next-page-btn {
-  background-color: aqua;
+  border: 1px solid aqua;
   padding: 0.62rem 0.62rem 0.62rem 0.62rem;
   border-radius: 0.5rem;
   font-size: 0.98rem;
