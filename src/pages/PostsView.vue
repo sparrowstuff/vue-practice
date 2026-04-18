@@ -1,6 +1,7 @@
 <template>
   <section class="posts">
     <h2 class="posts__title">Список постов</h2>
+    <AddPostForm />
     <div class="posts__wrapper">
       <PostCard v-for="post in postsStore.allPosts" :key="post.id" :post="post" />
     </div>
@@ -11,6 +12,7 @@
 import { onMounted } from 'vue'
 import { usePostsStore } from '@/stores/postsStore'
 import PostCard from '@/components/PostCard.vue'
+import AddPostForm from '@/components/AddPostForm.vue'
 
 const postsStore = usePostsStore()
 
@@ -21,6 +23,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .posts {
+  margin-bottom: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.62rem;

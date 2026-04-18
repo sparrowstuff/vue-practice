@@ -187,7 +187,7 @@ const props = defineProps({
   }
 
   &__title {
-    font-size: $px-24;
+    font-size: $px-32;
     color: $black;
     line-height: 100%;
   }
@@ -206,7 +206,7 @@ const props = defineProps({
   }
 
   &__tags-list-item {
-    font-size: $px-16;
+    font-size: $px-24;
     line-height: 110%;
   }
 

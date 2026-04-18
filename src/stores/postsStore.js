@@ -6,6 +6,13 @@ import getPosts from '@/api/getPosts'
 export const usePostsStore = defineStore('posts', () => {
   const allPosts = ref([])
   const isLoading = ref(false)
+  const newPost = {
+    title: String,
+    description: String,
+    hashtags: Array,
+    likes: Number,
+    dislikes: Number,
+  }
 
   const fetchPosts = async () => {
     isLoading.value = true
@@ -13,6 +20,8 @@ export const usePostsStore = defineStore('posts', () => {
     try {
       const data = await getPosts()
       allPosts.value = data || []
+
+      localStorage.setItem('posts-list', JSON.stringify(allPosts.value))
     } catch (error) {
       console.error('Failed to add posts to store', error)
       allPosts.value = []
@@ -21,5 +30,9 @@ export const usePostsStore = defineStore('posts', () => {
     }
   }
 
-  return { allPosts, fetchPosts, isLoading }
+  const addPost = (post) => {
+    allPosts.value.push(post)
+  }
+
+  return { allPosts, fetchPosts, isLoading, addPost }
 })
