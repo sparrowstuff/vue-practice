@@ -18,9 +18,18 @@
         class="basket-product"
       />
     </div>
+    <button
+      v-if="basket.productsInBasket.length !== 0"
+      class="basket__clear-basket-btn btn btn--transparent"
+      type="button"
+      aria-label="Очистить корзину"
+      @click="clearBasket"
+    >
+      Очистить корзину
+    </button>
   </div>
 
-  <div class="get-products-form">
+  <div class="get-products-form" v-if="basket.productsInBasket.length !== 0">
     <form class="get-products-form__form" action="#" method="post" @submit.prevent>
       <div class="get-products-form__info-block">
         <h4 class="get-products-form__title">
@@ -85,6 +94,10 @@ watch(nameInput, () => {})
 
 const goToCatalog = () => {
   router.push('/catalog')
+}
+
+const clearBasket = () => {
+  basket.clearBasket()
 }
 </script>
 

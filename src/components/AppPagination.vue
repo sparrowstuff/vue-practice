@@ -1,6 +1,13 @@
 <template>
   <div class="pagination">
-    <button class="pagination__prev-page-btn" type="button" @click="prevPage">Previous</button>
+    <button
+      class="pagination__prev-page-btn"
+      type="button"
+      @click="prevPage"
+      :disabled="currentPage === 1"
+    >
+      Previous
+    </button>
     <button
       class="pagination__current-page-btn"
       type="button"
@@ -23,11 +30,17 @@
 </template>
 
 <script setup>
-import { IPagination } from './js/paginationPage'
-
 const props = defineProps({
-  totalPages: Number,
-  currentPage: Number,
+  totalPages: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+  currentPage: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
 })
 
 const emit = defineEmits(['update:current-page'])
@@ -51,12 +64,11 @@ const goToPage = (page) => {
 
 <style scoped>
 .pagination {
-  margin-top: 1.125rem;
-  margin-bottom: 1.25rem;
   width: 100%;
   display: flex;
   align-items: center;
   gap: 0.62rem;
+  flex-wrap: wrap;
 
   @media (max-width: 31.25rem) {
     gap: 0.36rem;
@@ -73,6 +85,12 @@ const goToPage = (page) => {
   transition:
     background-color 0.3s ease-in,
     scale 0.3s ease-in;
+}
+
+.pagination__prev-page-btn:disabled,
+.pagination__next-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .pagination__current-page-btn.active {

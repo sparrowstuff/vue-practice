@@ -144,10 +144,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import router from '@/router/router'
-import { usePostsStore } from '@/stores/postsStore'
 
 const authStore = useAuthStore()
 
@@ -177,6 +174,12 @@ const props = defineProps({
     gap: 0.62rem;
     padding-bottom: 0.4rem;
     border-bottom: 1px solid $black;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+      justify-content: unset;
+      align-items: unset;
+    }
   }
 
   &__info {
@@ -184,6 +187,12 @@ const props = defineProps({
     align-items: center;
     justify-content: space-between;
     gap: 0.4rem;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+      justify-content: unset;
+      align-items: unset;
+    }
   }
 
   &__title {
@@ -197,12 +206,20 @@ const props = defineProps({
     padding: 0.2rem 0.2rem 0.05rem 0.2rem;
     border: 1px solid $aqua;
     border-radius: 0.2rem;
+
+    @media (max-width: 48rem) {
+      width: fit-content;
+    }
   }
 
   &__tags-list {
     display: flex;
     align-items: center;
     gap: 0.62rem;
+
+    @media (max-width: 48rem) {
+      flex-wrap: wrap;
+    }
   }
 
   &__tags-list-item {

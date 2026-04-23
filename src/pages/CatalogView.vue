@@ -225,13 +225,15 @@ h2 {
 
 .catalog {
   margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
   &__title-block {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.62rem;
-    margin-bottom: 1.62rem;
   }
 
   &__basket {

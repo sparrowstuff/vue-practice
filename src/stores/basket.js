@@ -49,5 +49,16 @@ export const useBasketStore = defineStore('basket', () => {
     }, 0)
   })
 
-  return { addInBasket, productsInBasket, isInBasket, removeFromBasket, totalBasketPrice }
+  const clearBasket = () => {
+    productsInBasket.value = []
+  }
+
+  return {
+    addInBasket,
+    productsInBasket,
+    isInBasket,
+    removeFromBasket,
+    totalBasketPrice,
+    clearBasket,
+  }
 })

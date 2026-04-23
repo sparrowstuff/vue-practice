@@ -18,10 +18,16 @@ export const usePostsStore = defineStore('posts', () => {
     isLoading.value = true
 
     try {
-      const data = await getPosts()
-      allPosts.value = data || []
+      const savedPosts = localStorage.getItem('posts-list')
 
-      localStorage.setItem('posts-list', JSON.stringify(allPosts.value))
+      if (savedPosts) {
+        allPosts.value = JSON.parse(savedPosts)
+      } else {
+        const data = await getPosts()
+        allPosts.value = data || []
+
+        localStorage.setItem('posts-list', JSON.stringify(allPosts.value))
+      }
     } catch (error) {
       console.error('Failed to add posts to store', error)
       allPosts.value = []
@@ -31,7 +37,9 @@ export const usePostsStore = defineStore('posts', () => {
   }
 
   const addPost = (post) => {
-    allPosts.value.push(post)
+    allPosts.value.unshift(post)
+
+    localStorage.setItem('posts-list', JSON.stringify(allPosts.value))
   }
 
   return { allPosts, fetchPosts, isLoading, addPost }

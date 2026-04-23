@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="addPost" class="add-post">
+  <form @submit.prevent="addPost" method="POST" class="add-post">
     <h3 class="add-post__title">Добавить пост:</h3>
     <div class="add-post__wrapper">
       <div class="add-post-input" :class="{ 'has-value': hasTitleInside }">
@@ -69,12 +69,21 @@
     <button class="add-post__submit-btn btn" type="submit" aria-label="Добавить пост">
       Добавить пост
     </button>
+    <button
+      class="add-post__clear-btn btn"
+      type="button"
+      aria-label="Очистить форму"
+      @click="clearForm"
+    >
+      Очистить
+    </button>
   </form>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import { usePostsStore } from '@/stores/postsStore'
+import { useAuthStore } from '@/stores/auth'
 
 const postTitle = ref('')
 const postDescription = ref('')
@@ -82,6 +91,9 @@ const postHashtag = ref('')
 const postHashtags = ref([])
 
 const postsStore = usePostsStore()
+const authStore = useAuthStore()
+
+const emit = defineEmits(['post-added'])
 
 const addHashtag = (hashtag) => {
   if (postHashtag.value.trim() !== '') {
@@ -89,7 +101,39 @@ const addHashtag = (hashtag) => {
     postHashtag.value = ''
   }
 }
-const addPost = () => {}
+
+const addPost = () => {
+  if (!postTitle.value.trim()) {
+    alert('Введите название поста!')
+    return
+  }
+
+  if (!postDescription.value.trim()) {
+    alert('Введите описание поста!')
+    return
+  }
+
+  try {
+    const newPost = {
+      id: Date.now(),
+      title: postTitle.value,
+      body: postDescription.value,
+      userId: authStore.user?.id || 1,
+      tags: [...postHashtags.value],
+      reactions: { likes: 0, dislikes: 0 },
+    }
+
+    postsStore.addPost(newPost)
+
+    postTitle.value = ''
+    postDescription.value = ''
+    postHashtags.value = []
+
+    emit('post-added')
+  } catch (err) {
+    console.error('Ошибка добавления поста', err)
+  }
+}
 
 const hasTitleInside = computed(() => {
   return postTitle.value.trim() !== ''
@@ -100,6 +144,12 @@ const hasDescriptionInside = computed(() => {
 const hasHashtagInside = computed(() => {
   return postHashtag.value.trim() !== ''
 })
+
+const clearForm = () => {
+  postTitle.value = ''
+  postDescription.value = ''
+  postHashtags.value = []
+}
 </script>
 
 <style lang="scss" scoped>
